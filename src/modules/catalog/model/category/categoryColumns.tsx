@@ -23,7 +23,7 @@ export function categoryColumns({ handleUpdateOpen, trigger, mutate }: Props): G
     {
       field: 'actions',
       type: 'actions',
-      width: 215,
+      width: 90,
       getActions: ({ row }) => [
         // <Link style={{ marginRight: 8 }} href={`/main/categories/${row.id}?lang=${lang}`}>
         //   <Button variant="outlined">Новости</Button>

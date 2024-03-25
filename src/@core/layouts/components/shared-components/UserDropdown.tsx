@@ -22,10 +22,7 @@ import { useAuth } from 'src/hooks/useAuth'
 
 // ** Type Imports
 import { Settings } from 'src/@core/context/settingsContext'
-import { checkIsAdmin } from '../../../../shared/lib/checkRole'
 import { getHighUserRole } from '../../../../shared/lib/getHighUserRole'
-import { ProfileChangeModal } from '@modules/user/ui/ProfileChangeModal'
-import { ChangePassword } from '@modules/user/ui/ChangePassword'
 
 interface Props {
   settings: Settings
@@ -114,7 +111,7 @@ const UserDropdown = (props: Props) => {
 
   return (
     <Fragment>
-      {isOpenChangeProfile && (
+      {/* {isOpenChangeProfile && (
         <ProfileChangeModal
           handleClose={handleCloseChangeProfile}
         />
@@ -123,7 +120,7 @@ const UserDropdown = (props: Props) => {
         <ChangePassword
           handleClose={handleCloseChangePassword}
         />
-      )}
+      )} */}
       <Badge
         overlap="circular"
         onClick={handleDropdownOpen}

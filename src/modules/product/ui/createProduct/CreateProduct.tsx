@@ -25,7 +25,6 @@ import { postFetcher } from '@shared/api/fetcher/postFetcher'
 import toast from 'react-hot-toast'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
-import { IProductType } from '@modules/productType'
 import { langSelector, useLanguageStore } from '@shared/model/store'
 import DateTimePickerCustom from '@shared/ui/DatePickerCustom'
 
