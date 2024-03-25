@@ -25,9 +25,9 @@ export function categoryColumns({ handleUpdateOpen, trigger, mutate }: Props): G
       type: 'actions',
       width: 215,
       getActions: ({ row }) => [
-        <Link style={{ marginRight: 8 }} href={`/main/categories/${row.id}?lang=${lang}`}>
-          <Button variant="outlined">Новости</Button>
-        </Link>,
+        // <Link style={{ marginRight: 8 }} href={`/main/categories/${row.id}?lang=${lang}`}>
+        //   <Button variant="outlined">Новости</Button>
+        // </Link>,
         <GridActionsCellItem
           title="Изменить"
           label="Изменить"
