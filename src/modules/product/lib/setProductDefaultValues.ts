@@ -8,6 +8,7 @@ export function setProductDefaultValues(product: IProduct): UpdateProductFormDat
     content: product.content,
     date: product.date,
     img: product.img,
+    link_video: product.link_video,
     // quantity: product.quantity,
     // product_type_id: product.product_type?.id,
     category_id: product.category_id,

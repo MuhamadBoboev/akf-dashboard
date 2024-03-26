@@ -8,20 +8,20 @@ const navigation = (): VerticalNavItemsType => {
       path: '/main/categories',
       icon: 'ep:menu'
     },
-    {
-      title: 'Новости',
-      icon: 'fluent-mdl2:product',
-      children: [
-        {
-          title: 'Все новости',
-          path: '/main/products',
-        },
-        {
-          title: 'Добавить новость',
-          path: '/main/products/create',
-        }
-      ]
-    },
+    // {
+    //   title: 'Новости',
+    //   icon: 'fluent-mdl2:product',
+    //   children: [
+    //     {
+    //       title: 'Все новости',
+    //       path: '/main/products',
+    //     },
+    //     {
+    //       title: 'Добавить новость',
+    //       path: '/main/products/create',
+    //     }
+    //   ]
+    // },
   ]
 }
 

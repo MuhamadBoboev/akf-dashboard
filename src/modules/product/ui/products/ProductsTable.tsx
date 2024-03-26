@@ -10,7 +10,7 @@ import { PaginationModelType } from '@shared/lib/PaginationModelType'
 
 interface Props {
   loading: boolean
-  products?: IProductsData
+  products?: IProductsData[]
   paginationModel: PaginationModelType
   setPaginationModel: Dispatch<SetStateAction<PaginationModelType>>
   mutate: KeyedMutator<any>
@@ -28,13 +28,18 @@ function ProductsTable({
   setRowSelectionModel
 }: Props) {
   const { trigger } = useSWRMutation('/news/delete', deleteFetcher)
+  // console.log(products)
 
+
+  if (!products) {
+    return null
+  }
   return (
     <DataGrid
       slots={{ loadingOverlay: LinearProgress }}
       loading={loading}
       columns={productColumns({ trigger, mutate })}
-      rows={products?.data.news || []}
+      rows={products[0].news || []}
       pagination={true}
       paginationModel={paginationModel}
       pageSizeOptions={[5, 10, 15, 20, 25, 30, 35]}
@@ -53,7 +58,7 @@ function ProductsTable({
       }}
       rowSelectionModel={rowSelectionModel}
       keepNonExistentRowsSelected
-      rowCount={products?.meta?.total}
+      rowCount={products[0]?.meta?.total}
       autoHeight
       localeText={{
         noRowsLabel: 'Пусто'

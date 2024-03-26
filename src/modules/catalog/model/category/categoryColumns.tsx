@@ -23,11 +23,11 @@ export function categoryColumns({ handleUpdateOpen, trigger, mutate }: Props): G
     {
       field: 'actions',
       type: 'actions',
-      width: 90,
+      width: 300,
       getActions: ({ row }) => [
-        // <Link style={{ marginRight: 8 }} href={`/main/categories/${row.id}?lang=${lang}`}>
-        //   <Button variant="outlined">Новости</Button>
-        // </Link>,
+        <Link style={{ marginRight: 8 }} href={`/main/categories/${row.id}`}>
+          <Button variant="outlined">Новости</Button>
+        </Link>,
         <GridActionsCellItem
           title="Изменить"
           label="Изменить"

@@ -14,10 +14,7 @@ import { EditorWrapper } from '../../../../@core/styles/libs/react-draft-wysiwyg
 import { stateToHTML } from 'draft-js-export-html'
 import useSWR from 'swr'
 import { getFetcher } from '@shared/api/fetcher/getFetcher'
-import InputLabel from '@mui/material/InputLabel'
-import { Select } from '@mui/material'
-import MenuItem from '@mui/material/MenuItem'
-import ModalFormControl from '@shared/ui/ModalFormControl'
+import { Box, Button, Select } from '@mui/material'
 import { ICategory, ISubcategory } from '@modules/catalog'
 import { LoadingButton } from '@mui/lab'
 import useSWRMutation from 'swr/mutation'
@@ -27,13 +24,17 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { langSelector, useLanguageStore } from '@shared/model/store'
 import DateTimePickerCustom from '@shared/ui/DatePickerCustom'
+import Link from 'next/link'
+import { IProductsData } from '@modules/product/model/IProduct'
 
 
 function CreateProduct() {
   const [image, setImage] = useState<File[]>([])
   const [content, setContent] = useState(EditorState.createEmpty())
   const lang = useLanguageStore(langSelector)
+  const router = useRouter()
   const { data: categoriesData } = useSWR<ICategory[]>(`/category/get?lang=${lang}`, getFetcher)
+  const { data: category } = useSWR<[IProductsData]>(`/category/get-by-id/${router.query.id}`, getFetcher)
   const { trigger, isMutating } = useSWRMutation('/news/create', postFetcher)
 
   const {
@@ -48,44 +49,45 @@ function CreateProduct() {
   } = useForm<CreateProductFormData>({
     mode: 'onBlur',
     defaultValues: {
-      category_id: null,
+      category_id: Number(router.query.id),
     },
     resolver: yupResolver(createProductScheme)
   })
-  const router = useRouter()
 
   useEffect(() => {
     setValue('content', stateToHTML(content.getCurrentContent()))
   }, [content])
 
   const onSubmit: SubmitHandler<CreateProductFormData> = async (data) => {
-    const categoryId = getValues('category_id')
-    if (!categoryId) {
-      setError('category_id', {
-        message: 'Выберите категорию или коллекцию'
-      })
-      return
-    }
+
+
+    // const categoryId = getValues('category_id')
+    // if (!categoryId) {
+    //   setError('category_id', {
+    //     message: 'Выберите категорию или коллекцию'
+    //   })
+    //   return
+    // }
     try {
       const formData: any = {
         ...data,
         img: image[0],
       }
-      if (data.category_id) {
-        formData.category_id = formData.category_id
-      }
+      // if (data.category_id) {
+      //   formData.category_id = formData.category_id
+      // }
 
       const response = await trigger(formData)
       toast.success(response.message)
       reset({
         category_id: null,
         content: null,
-        date: null,
+        date: '',
         img: '',
         title: '',
       })
-      // router.push(`/main/products/${response.product.slug}`)
-      router.push(`/main/products/`)
+      router.push(`/main/categories/${category && category[0].id}`)
+      // router.push(`/main/products/`)
     } catch (e) {
       const error = e as AxiosError<{ message: string }>
       toast.error(error.response?.data.message || 'Произошла ошибка')
@@ -99,7 +101,30 @@ function CreateProduct() {
 
 
   return (
-    <CustomCard>
+    <CustomCard
+      sx={{
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Box
+        component="header"
+        mb={5}
+        display="flex"
+        alignItems="end"
+        justifyContent="space-between"
+        p={5}
+      >
+        <Typography
+          variant="h5"
+          component="h1"
+        >
+          Категория '{category && category[0].name}'
+        </Typography>
+        <Link style={{ marginRight: 8 }} href={`/main/categories/${router.query.id}`}>
+          <Button variant="outlined">Венуться '{category && category[0].name}'</Button>
+        </Link>
+      </Box>
       <Typography
         variant="h5"
         component="h1"
@@ -145,7 +170,15 @@ function CreateProduct() {
             </EditorWrapper>
           </Grid>
           <Grid item xs={6}>
-            <ModalFormControl errorMessage={errors.category_id?.message}>
+            <TextFieldCustom
+              name="link_video"
+              control={control}
+              label="Ссылка"
+              errorMessage={errors.link_video?.message}
+              required
+            />
+
+            {/* <ModalFormControl errorMessage={errors.category_id?.message}>
               <InputLabel id="select-category">Категория *</InputLabel>
               <Controller
                 name="category_id"
@@ -175,7 +208,7 @@ function CreateProduct() {
                   </Select>
                 )}
               />
-            </ModalFormControl>
+            </ModalFormControl> */}
           </Grid>
 
           <Grid item xs={6}>
@@ -183,6 +216,7 @@ function CreateProduct() {
               name="date"
               control={control}
               label="Выберите дату и время"
+              errorMessage={errors.link_video?.message}
               required
             />
           </Grid>

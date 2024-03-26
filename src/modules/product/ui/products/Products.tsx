@@ -11,6 +11,9 @@ import { ICategory } from '@modules/catalog'
 import { GridRowSelectionModel } from '@mui/x-data-grid'
 import { ProductsActiveModal } from '@modules/product/ui/products/ProductsActiveModal'
 import { langSelector, useLanguageStore } from '@shared/model/store'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { Button, Grid } from '@mui/material'
 
 interface Props {
   categories: ICategory[]
@@ -27,32 +30,36 @@ function Products({ categories }: Props) {
   const [query, setQuery] = useState('')
   const [activeModal, setActiveModal] = useState(false)
   const lang = useLanguageStore(langSelector)
+  const router = useRouter()
   const {
     data: products,
     isValidating,
     isLoading,
     error,
     mutate,
-  } = useSWR<IProductsData>(`/news/get?lang=${lang}&page=${paginationModel.page + 1}&per_page=${paginationModel.pageSize}${search ? `&search=${search}` : ''}` + query, getFetcher, {
+  } = useSWR<[IProductsData]>(`/category/get-by-id/${router.query.id}?lang=${lang}&page=${paginationModel.page + 1}&per_page=${paginationModel.pageSize}${search ? `&search=${search}` : ''}` + query, getFetcher, {
     keepPreviousData: true,
   })
 
-  useEffect(() => {
-    if (products) {
-      if (paginationModel.page > 0) {
-        if (products.meta.total === 0) {
-          setPaginationModel({
-            ...paginationModel,
-            page: paginationModel.page - 1,
-          })
-        }
-      }
-    }
-  }, [paginationModel, products])
+
+  // useEffect(() => {
+  //   if (products) {
+  //     if (paginationModel.page > 0) {
+  //       if (products.meta.total === 0) {
+  //         setPaginationModel({
+  //           ...paginationModel,
+  //           page: paginationModel.page - 1,
+  //         })
+  //       }
+  //     }
+  //   }
+  // }, [paginationModel, products])
 
   if (error) {
     return <Error500 />
   }
+
+
 
   return (
     <CustomCard
@@ -65,16 +72,34 @@ function Products({ categories }: Props) {
         component="header"
         mb={5}
         display="flex"
-        alignItems="center"
+        alignItems="end"
         justifyContent="space-between"
         p={5}
       >
-        <Typography
-          variant="h5"
-          component="h1"
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          spacing={2}
         >
-          Товары
-        </Typography>
+          <Grid item xs={8}>
+            <Typography
+              variant="h5"
+              component="h1"
+            >
+              Новости категории "{products && products[0].name}"
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Link style={{ marginRight: 8 }} href={`/main/categories`}>
+              <Button variant="outlined">Вернуться назад</Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <Link style={{ marginRight: 8 }} href={`/main/categories/create/${router.query.id}`}>
+          <Button variant="outlined">Добавить новость</Button>
+        </Link>
         {activeModal && (
           <ProductsActiveModal
             close={() => setActiveModal(false)}

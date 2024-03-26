@@ -8,12 +8,14 @@ export interface IProduct {
   id: number
   img: string
   title: string
+  link_video: string
 }
 
 export interface IProductsData extends IPagination {
-  data: {
-    count: number
-    news: IProduct[]
-  }
+  id: number
+  lang_id: number
+  name: string
+  news: IProduct[]
+
 }
 

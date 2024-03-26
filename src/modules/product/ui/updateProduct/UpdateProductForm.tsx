@@ -85,31 +85,13 @@ function UpdateProductForm({ description, errors, control, setValue, watch, getV
         </EditorWrapper>
       </Grid>
       <Grid item xs={6}>
-        <ModalFormControl errorMessage={errors.category_id?.message}>
-          <InputLabel id="category_id">Категория</InputLabel>
-          <Controller
-            name="category_id"
-            control={control}
-            render={({ field }) => (
-              <Select
-                labelId="select-category_ids-label"
-                id="category_id"
-                label="Категория"
-                {...field}
-                required={true}
-                onChange={(event) => {
-                  if (field.onChange) {
-                    field.onChange(event)
-                  }
-                }}
-              >
-                {categoriesData.map(({ id, name }) => (
-                  <MenuItem key={id} value={id}>{name}</MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </ModalFormControl>
+        <TextFieldCustom
+          name="link_video"
+          control={control}
+          label="Ссылка"
+          errorMessage={errors.link_video?.message}
+          required
+        />
       </Grid>
 
       <Grid item xs={6}>

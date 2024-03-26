@@ -28,17 +28,18 @@ export function productColumns({ trigger, mutate }: Props): GridColDef<IProduct>
       )
     },
     { field: 'title', headerName: 'Название', minWidth: 120, flex: 2 },
-    {
-      field: 'category_id',
-      headerName: 'Категория',
-      flex: 1,
-      renderCell: ({ row: { category_id } }) => <>{category_id}</>
-    },
-    { field: 'date', headerName: 'Дата', flex: 1 },
+    // { field: 'link_video', headerName: 'Ссылка', minWidth: 120, flex: 2 },
+    // {
+    //   field: 'category_id',
+    //   headerName: 'Категория',
+    //   flex: 1,
+    //   renderCell: ({ row: { category_id } }) => <>{category_id}</>
+    // },
+    { field: 'date', headerName: 'Дата', flex: 2 },
     {
       field: 'actions',
       type: 'actions',
-      width: 100,
+      width: 150,
       getActions: ({ row }) => [
         <Link href={`/main/products/${row.id}`}>
           <GridActionsCellItem

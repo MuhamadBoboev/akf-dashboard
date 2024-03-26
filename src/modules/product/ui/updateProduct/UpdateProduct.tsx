@@ -38,7 +38,6 @@ function UpdateProduct() {
         ml={10}
       >{product.title}</Typography>
       <Box px={10} mt={5} mb={10}>
-        <Tab label="Основное" value="main" />
       </Box>
       <Box px={10} mb={5} pb={5}>
         {product && <UpdateProductMain

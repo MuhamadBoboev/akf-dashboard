@@ -15,6 +15,7 @@ import { setProductDefaultValues } from '@modules/product/lib/setProductDefaultV
 import { FileUploader } from '@shared/ui/FileUploader'
 import { updateFetcherNews } from '@shared/api/fetcher/updateFetcherNews'
 import { getFetcher } from '@shared/api/fetcher/getFetcher'
+import { useRouter } from 'next/router'
 
 interface Props {
   product: IProduct
@@ -24,7 +25,7 @@ interface Props {
 function UpdateProductMain({ product, mutate }: Props) {
   const [images, setImages] = useState<File[]>([])
   // const [images, setImages] = useState<File[]>([])
-
+  const router = useRouter()
   const [image, setImage] = useState<string | null>(null)
   const { trigger, isMutating, reset } = useSWRMutation(['/news/update', product.id], updateFetcher)
   const {
@@ -54,6 +55,7 @@ function UpdateProductMain({ product, mutate }: Props) {
       const { message } = await trigger(formData)
       toast.success(message)
       await mutate()
+      router.push(`/main/categories/${router.query.id && router.query.id}`)
       reset()
       // setImage(null)
     } catch (e) {
